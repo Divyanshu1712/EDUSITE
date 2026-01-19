@@ -20,7 +20,7 @@ def register(request : RegisterRequest, db: Session = Depends(get_db)):
         return {"message":"User Register Successfully!"}
     except ValueError as e:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)
+            status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e)
         )
         
 @router.post("/login",response_model=TokenResponse)
