@@ -1,0 +1,4 @@
+APP_NAME=EduSite
+DATABASE_URL=postgresql://neondb_owner:npg_rScH06CwVWqB@ep-late-morning-a8qnaazx-pooler.eastus2.azure.neon.tech/neondb?sslmode=require&channel_binding=require
+JWT_SECRET=super-secret-key
+ACCESS_TOKEN_EXPIRE_MINUTES=60
