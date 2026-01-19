@@ -1,26 +1,43 @@
-from typing import Union
-
 from fastapi import FastAPI
-import random
 from pydantic import BaseModel
+from typing import List
 
 app = FastAPI()
 
-class Item(BaseModel):
-    name : str
-    price: float
-    is_offer : Union[bool, None] = None
+class Tea(BaseModel):
+    id :int
+    name: str
+    origin : str
     
-@app.get("/check")
-def read_root():
-    return {"Hello": "World"}
+
+teas: List[Tea] = []
+
+@app.get("/")
+def main_root():
+    return {"message":"Hello World"}
+
+@app.get("/all")
+def get_teas():
+    return teas
+
+@app.post("/teas")
+def add_tea(tea: Tea):
+    teas.append(tea)
+    return tea
+
+@app.put("/teas/{tea_id}")
+def update_tea(tea_id:int, update_tea: Tea ):
+    for index, tea in enumerate(teas):
+        if tea.id == tea_id:
+            teas[index] = update_tea
+            return update_tea
+    return {"error":"Tea not found"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    fill = random.randint(1,4)
-    return {"item_id": item_id, "q": fill}
-
-@app.put("/items/{item_id}")
-def update_item(item_id : int, item: Item):
-    return {"item_name": item.name, "item_id":item_id}
+@app.delete("/teas/{tea_id}")
+def delete_tea(tea_id :int):
+    for index, tea in enumerate(teas):
+        if tea.id == tea_id:
+            deleted = teas.pop(index)
+            return deleted
+    return {"error":"tea is nto found"}
