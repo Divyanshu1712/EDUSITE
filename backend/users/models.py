@@ -5,7 +5,7 @@ import uuid
 from db.base import Base
 
 class User(Base):
-    __table__name__ = "user_master"
+    __tablename__  = "user_master"
     
     user_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     email = Column(String(150), unique=True, nullable=False)
