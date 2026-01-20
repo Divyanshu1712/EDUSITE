@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from db.session import get_db
 from auth.schemas import LoginRequest, RegisterRequest , TokenResponse
-from auth.service import regiser_user,  authenticate_user
+from auth.service import register_user, authenticate_user
 from core.security import create_access_token
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -11,7 +11,7 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 @router.post("/register",status_code = status.HTTP_201_CREATED)
 def register(request : RegisterRequest, db: Session = Depends(get_db)):
     try:
-        user = regiser_user(
+        user = register_user(
             db=db,
             email=request.email,
             password=request.password,

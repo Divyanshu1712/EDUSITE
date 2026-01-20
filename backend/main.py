@@ -8,7 +8,7 @@ app = FastAPI()
 
 # Configure CORS
 origins = [
-    "http://localhost:7777"
+    "http://localhost:7777"  # Frontend Vite dev server port
 ]
 
 app.add_middleware(

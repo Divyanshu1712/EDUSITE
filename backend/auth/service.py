@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from users.models import User
 from core.security import hash_password, verify_password
 
-def regiser_user(db:Session, email:str, password: str, full_name:str):
+def register_user(db:Session, email:str, password: str, full_name:str):
     #check if user exist or not
     existing_user = db.query(User).filter(User.email == email).first()
     if existing_user:
