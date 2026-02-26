@@ -8,6 +8,7 @@ import Register from "./pages/Register"
 import Dashboard from "./pages/Dashboard"
 import AdminUsers from "./pages/user";
 import DashboardLayout from "./components/layout/DashboardLayout"
+import Profile from "./pages/Profile-section";
 
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
               {/* All these routes render inside DashboardLayout's <Outlet /> */}
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="users" element={<AdminUsers />} />
+              <Route path="profile" element={<Profile />} />
               <Route index element={<Dashboard />} />
             </Route>
 

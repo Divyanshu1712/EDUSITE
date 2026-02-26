@@ -21,6 +21,8 @@ import {
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
 
+import { Link } from "react-router-dom"
+
 import { useAuth } from "../../providers/auth-provider"
 import { useNavigate } from "react-router-dom"
 
@@ -85,15 +87,11 @@ export default function ProfileDrop() {
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
                         <User />
-                        Profile
+                        <Link to="/profile">Profile</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                         <BadgeCheck />
                         Account
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <Bell />
-                        Notifications
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

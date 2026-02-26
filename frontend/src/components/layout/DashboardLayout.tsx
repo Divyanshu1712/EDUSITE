@@ -12,32 +12,64 @@ import { Outlet } from "react-router-dom"
 
 export default function DashboardLayout() {
     return (
-        <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset>
-                {/* Header */}
-                <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 border-b px-4">
-                    {/* Left section - Sidebar trigger */}
-                    <SidebarTrigger className="-ml-1" />
-                    <Separator orientation="vertical" className="mr-2 h-4" />
+        /*
+         * Outer canvas: full viewport, padded, background from CSS var.
+         * This is the "alive area" that everything floats inside.
+         */
+        <div className="flex h-svh w-full bg-background p-2 gap-0 overflow-hidden">
 
-                    {/* Center section - Company name */}
-                    <div className="flex-1 flex justify-center">
-                        <CompanyName />
-                    </div>
+            {/* ── Sidebar (left column) — floats inside the canvas with rounded corners ── */}
+            <SidebarProvider
+                className="min-h-0! w-auto! flex-none! contents"
+                style={{ "--sidebar-width": "16rem" } as React.CSSProperties}
+            >
+                {/* AppSidebar renders the actual sidebar panel */}
+                <AppSidebar variant="floating" />
 
-                    {/* Right section - Mode toggle and Profile dropdown */}
-                    <div className="flex items-center gap-2">
-                        <ModeToggle />
-                        <ProfileDrop />
-                    </div>
-                </header>
+                {/* ── Right column: header + main stacked ── */}
+                <SidebarInset className="flex flex-col flex-1 min-w-0 gap-2 overflow-hidden m-0! rounded-none! bg-transparent">
 
-                {/* Main content area - Pages render here via Outlet */}
-                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                    <Outlet />
-                </div>
-            </SidebarInset>
-        </SidebarProvider>
+                    {/* ── Header card ── */}
+                    <header className="
+                        flex shrink-0 items-center gap-2 px-4
+                        h-14
+                        bg-card text-card-foreground
+                        border border-border
+                        rounded-2xl
+                        shadow-sm
+                        transition-all duration-200 ease-linear
+                    ">
+                        {/* Sidebar trigger */}
+                        <SidebarTrigger className="-ml-1" />
+                        <Separator orientation="vertical" className="mr-2 h-4" />
+
+                        {/* Center — Company name */}
+                        <div className="flex-1 flex justify-center">
+                            <CompanyName />
+                        </div>
+
+                        {/* Right — theme toggle + profile */}
+                        <div className="flex items-center gap-2">
+                            <ModeToggle />
+                            <ProfileDrop />
+                        </div>
+                    </header>
+
+                    {/* ── Main content card ── */}
+                    <main className="
+                        relative
+                        flex flex-1 flex-col min-h-0 overflow-y-auto
+                        bg-card text-card-foreground
+                        border border-border
+                        rounded-2xl
+                        shadow-sm
+                        custom-scrollbar
+                    ">
+                        <Outlet />
+                    </main>
+
+                </SidebarInset>
+            </SidebarProvider>
+        </div>
     )
 }

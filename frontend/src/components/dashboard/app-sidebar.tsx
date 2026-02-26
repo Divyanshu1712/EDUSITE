@@ -42,28 +42,13 @@ const data = {
       ],
     },
     {
-      title: "User Management",
+      title: "Admin Management",
       url: "/users",
       icon: Users,
       items: [
         {
-          title: "All Users",
+          title: "User Management",
           url: "/users",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "/settings",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "/settings",
-        },
-        {
-          title: "Profile",
-          url: "/profile",
         },
       ],
     },
@@ -82,7 +67,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <div className="flex items-center justify-center p-2 text-xs text-muted-foreground">
           <span className="group-data-[collapsible=icon]:hidden">
-            © 2025 EduSITE. All rights reserved.
+            © 2026 EduSITE. All rights reserved.
           </span>
           <span className="hidden group-data-[collapsible=icon]:block">
             ©
