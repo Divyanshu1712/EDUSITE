@@ -8,9 +8,33 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "../ui/sidebar"
-import { Outlet } from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
+import { useEffect, useRef, useState } from "react"
+import PageLoader from "../common/PageLoader"
 
 export default function DashboardLayout() {
+    const location = useLocation()
+    const [isNavigating, setIsNavigating] = useState(false)
+
+    /**
+     * prevPathnameRef is initialised to the CURRENT pathname.
+     * Effect only fires the loader when the pathname is DIFFERENT from the
+     * previous one — this means:
+     *  • Initial mount  → paths are equal → no loader (safe in StrictMode too)
+     *  • Sidebar click  → paths differ   → loader shows for 400ms then clears
+     *  • Same link click → paths equal   → no loader
+     */
+    const prevPathnameRef = useRef(location.pathname)
+
+    useEffect(() => {
+        if (prevPathnameRef.current === location.pathname) return  // same route – skip
+
+        prevPathnameRef.current = location.pathname  // update stored path
+        setIsNavigating(true)
+        const timer = setTimeout(() => setIsNavigating(false), 400)
+        return () => clearTimeout(timer)             // cancel if next nav fires early
+    }, [location.pathname])
+
     return (
         /*
          * Outer canvas: full viewport, padded, background from CSS var.
@@ -65,7 +89,19 @@ export default function DashboardLayout() {
                         shadow-sm
                         custom-scrollbar
                     ">
-                        <Outlet />
+                        {/*
+                          * PageLoader is scoped to <main> because <main> has `relative`.
+                          * `absolute inset-0` fills only this card — sidebar & header untouched.
+                          */}
+                        {isNavigating && <PageLoader message="Loading page…" />}
+
+                        {/* Fade old content out while navigating, fade new content in after */}
+                        <div
+                            className="flex flex-1 flex-col min-h-0 transition-opacity duration-200"
+                            style={{ opacity: isNavigating ? 0 : 1, pointerEvents: isNavigating ? "none" : "auto" }}
+                        >
+                            <Outlet />
+                        </div>
                     </main>
 
                 </SidebarInset>
