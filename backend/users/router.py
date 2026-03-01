@@ -1,4 +1,3 @@
-from _winapi import PROCESS_ALL_ACCESS
 from fastapi import APIRouter, Depends, HTTPException
 from core.dependencies import get_current_user, require_admin
 from typing import List
@@ -36,7 +35,8 @@ class UserEmailRequest(BaseModel):
 @users_router.post("/search", response_model=UserResponse)
 def user_by_email(
     payload: UserEmailRequest,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
     ):
     return get_user_by_email(db, payload.email)
 
